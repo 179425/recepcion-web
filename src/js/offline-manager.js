@@ -237,8 +237,15 @@ export const OfflineManager = {
                 if (!error) {
                     logger.success(`Conexión verificada (intento ${attempt}/${maxRetries})`);
                     return true;
+                } else if (error.code) {
+                    // El servidor respondió con un error de la API (p. ej. 42501 permiso
+                    // denegado por RLS). Hay internet y Supabase está arriba: NO es un
+                    // problema de conexión, pero la consulta fue rechazada.
+                    logger.error(`Supabase respondió con error: ${error.message} (código: ${error.code}). ` +
+                                 'Revisa las políticas RLS / permisos de la tabla products.');
+                    return true;
                 } else {
-                    logger.warn(`Error de Supabase: ${error.message} (código: ${error.code || 'N/A'})`);
+                    logger.warn(`Error de red: ${error.message}`);
                 }
             } catch (e) {
                 logger.warn(`Intento ${attempt}/${maxRetries} falló: ${e.message}`);
