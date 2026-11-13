@@ -221,6 +221,8 @@ export function setupKeyboardDetection() {
         let hideTimeout   = null;
 
         const hideResumen = () => {
+            // En escritorio no hay teclado virtual: el resumen es un panel lateral fijo
+            if (window.matchMedia('(min-width: 900px)').matches) return;
             const isRecepcionView = $('viewRecepcion')?.classList.contains('active');
             if (summary && isRecepcionView) {
                 summary.style.display      = 'none';
