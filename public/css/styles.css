@@ -870,3 +870,163 @@ body.keyboard-open .cart-summary {
         height: 38px;
     }
 }
+/* ============================================
+   ESCRITORIO (≥ 900px)
+   Layout de dos columnas: lista de productos a la izquierda y
+   resumen/acciones fijo a la derecha. El móvil no se modifica.
+   ============================================ */
+@media (min-width: 900px) {
+    :root {
+        --gutter: max(20px, calc((100vw - 1280px) / 2 + 20px));
+    }
+
+    /* Pestañas centradas */
+    .tabs {
+        padding: 0 var(--gutter);
+        background: white;
+    }
+    .tab:hover {
+        background: #f1f5f9;
+    }
+    .tab:active {
+        transform: none;
+    }
+
+    /* Vista recepción: cabecera arriba, lista + resumen en dos columnas */
+    #viewRecepcion.active {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 380px;
+        grid-template-rows: auto minmax(0, 1fr);
+        column-gap: 20px;
+        padding-right: var(--gutter);
+    }
+
+    #viewRecepcion .header {
+        grid-column: 1 / -1;
+        margin-right: calc(var(--gutter) * -1);
+        padding: 14px var(--gutter);
+        display: grid;
+        grid-template-columns: 260px minmax(0, 1fr);
+        gap: 12px;
+        align-items: start;
+    }
+    #viewRecepcion .header input {
+        margin-top: 0;
+    }
+    #viewRecepcion .header #invoiceNumber {
+        margin: 0 !important;
+    }
+    #productSearchResults {
+        top: calc(100% - 6px);
+        left: calc(var(--gutter) + 272px);
+        right: var(--gutter);
+        max-height: 320px;
+    }
+
+    #viewRecepcion .cart-container {
+        grid-column: 1;
+        padding: 16px 0 24px var(--gutter);
+    }
+    .cart-item {
+        padding: 14px 18px;
+    }
+    .cart-item:active,
+    .hc:active {
+        transform: none;
+    }
+    .cart-item:hover {
+        border-color: #c7d2fe;
+        box-shadow: 0 2px 10px rgba(79, 70, 229, 0.08);
+    }
+    .btn-icon {
+        width: 34px;
+        height: 34px;
+    }
+    .btn-icon::before {
+        display: none;
+    }
+
+    /* Resumen como panel lateral (ya no es una barra fija inferior) */
+    #viewRecepcion .cart-summary {
+        grid-column: 2;
+        position: static;
+        align-self: start;
+        margin: 16px 0;
+        max-height: none;
+        overflow: visible;
+        border: 1px solid #e2e8f0;
+        border-top: 4px solid var(--orange);
+        border-radius: var(--radius-xl);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        backdrop-filter: none;
+        padding: var(--spacing-lg);
+    }
+    body.keyboard-open .cart-summary {
+        display: block !important;
+    }
+    .cart-summary-actions {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .btn-supplier,
+    .btn-product {
+        grid-column: span 1;
+    }
+    .btn-clear {
+        grid-column: span 2;
+    }
+    .action-btn:hover {
+        filter: brightness(1.05);
+        box-shadow: 0 5px 14px rgba(0, 0, 0, 0.18);
+    }
+
+    /* Botones flotantes a la izquierda para no tapar el panel de resumen */
+    body > div[style*="position: fixed"][style*="bottom"][style*="right: 10px"] {
+        right: auto !important;
+        left: 16px !important;
+    }
+
+    /* Historial centrado y con ancho cómodo */
+    .history-header {
+        padding: var(--spacing-sm) var(--gutter);
+    }
+    .history-filter-container input {
+        max-width: 260px;
+    }
+    #historyList {
+        width: 100%;
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 20px !important;
+    }
+    .hc-main {
+        cursor: pointer;
+    }
+    .hc-main:hover {
+        background: #f8fafc;
+    }
+    .hc-invoice { font-size: 18px; }
+    .hc-supplier { font-size: 15px; }
+    .hc-date { font-size: 13px; }
+    .h-load-more {
+        width: 100%;
+        margin: 10px 0 16px;
+    }
+
+    /* Modales */
+    .modal-content {
+        max-width: 460px;
+    }
+    #productModal .modal-content {
+        max-width: 620px !important;
+    }
+    .supplier-item {
+        padding: 12px 15px;
+    }
+}
+
+/* Pantallas muy anchas: un poco más de aire en el panel lateral */
+@media (min-width: 1500px) {
+    #viewRecepcion.active {
+        grid-template-columns: minmax(0, 1fr) 420px;
+    }
+}
