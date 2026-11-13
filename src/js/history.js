@@ -196,7 +196,11 @@ export async function toggleProducts(receptionId) {
 
             if (error) throw error;
 
-            const items = JSON.parse(data.items || '[]');
+            // items puede llegar como texto JSON (recepciones antiguas/offline) o ya
+            // como arreglo (columna jsonb guardada por complete_reception).
+            let items = data.items ?? [];
+            if (typeof items === 'string') items = JSON.parse(items || '[]');
+            if (!Array.isArray(items)) items = [];
             productsDiv.innerHTML = HistoryTemplates.productsList(items);
             HistoryModule.state.expandedCards.add(receptionId);
 
